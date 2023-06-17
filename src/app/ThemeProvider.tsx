@@ -1,22 +1,48 @@
 'use client'
- 
-import useDarkMode from '@/utils/darkmode';
-import { ReactNode } from 'react';
+import useSystemTheme from '@/hooks/useSystemTheme';
+import { ReactNode, createContext, useContext } from 'react';
 
+type ThemeContextType = {
+    border: string;
+    text: string;
+    altText: string;
+    bg: string;
+    inputfieldbg: string;
+  };
 
-// TODO - Extend this ThemeProvider to be a context provider
-// so that we can use it to pass down the darkmode state
-// to components that need it.
-// See https://reactjs.org/docs/context.html
-// and https://reactjs.org/docs/hooks-reference.html#usecontext
-// Nextjs client side rendering is a consideration
-// https://nextjs.org/docs/advanced-features/dynamic-import#basic-usage
+  const ThemeContext = createContext<ThemeContextType>({
+    bg: 'bg-slate-200',
+    border: 'boarder border-slate-200',
+    text: 'text-slate-800',
+    altText: 'text-slate-200',
+    inputfieldbg: 'bg-slate-200'
+  });
+
+  export const useTheme = () => useContext(ThemeContext);
+
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-    'use client'
-    const darkmode = useDarkMode()
-    const bg = darkmode ? 'bg-slate-800' : 'bg-slate-200';
-    const text = darkmode ? 'text-slate-200' : 'text-slate-800';
+    const [systemTheme] = useSystemTheme()
+    let context: ThemeContextType = {} as ThemeContextType;
+    // update context object based on system theme
+    if (systemTheme === 'dark') {
+        context.border = 'border border-slate-200';
+        context.text = 'text-slate-200';
+        context.altText = 'text-slate-500';
+        context.bg = 'bg-slate-800';
+        context.inputfieldbg = 'bg-slate-800';
+    } else {
+        context.border = 'border border-slate-800';
+        context.text = 'text-slate-800';
+        context.altText = 'text-slate-500';
+        context.bg = 'bg-slate-200';
+        context.inputfieldbg = 'bg-slate-200';
+    }
+
     console.log("theme provider");
     
-    return <body className={`${bg} ${text} container mx-auto p-4`}>{children}</body>
+    return (
+        <ThemeContext.Provider value={context}>
+            <body className={`${context.bg} ${context.text} container mx-auto p-4`}>{children}</body>
+        </ThemeContext.Provider>
+    )
 }

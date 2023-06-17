@@ -1,6 +1,6 @@
 // import prisma from db.ts
-import Link from "next/link";
 import prisma from "../db";
+import SummaryPage from "@/components/Summary/SummaryPage";
 
 export default async function Home() {
 
@@ -35,30 +35,10 @@ export default async function Home() {
 
 
   return (
-    <>
-      <header className="flex justify-between items-center">
-        <h1 className="text-2xl">Welcome</h1>
-        <Link
-          className="border border-slate-300 text-slate-300 
-        px-2 py-1 rounded hover:bg-slate-700 focus-within:bg-slate-700"
-          href="/new"
-        >
-          New Donation
-        </Link>
-      </header>
-
-      <main>
-        <br></br>
-        <h1>Donations to deposit: {numberToDeposit}</h1>
-        <br></br>
-
-        <h2 className="text-lg">Donations in the last 30 days</h2>
-        <p className='text-slate-400 text-sm'>Number of donations: {donations30Days}</p>
-        <p className='text-slate-400 text-sm'>Total amount: {donations30DaysAmount}</p>
-        <p className='text-slate-400 text-sm'>Average donation amount: {donations30DaysAmount / donations30Days}</p>
-
-        <br></br>
-      </main>
-    </>
+    <SummaryPage 
+    donations30Days={donations30Days} 
+    donations30DaysAmount={donations30DaysAmount} 
+    numberToDeposit={numberToDeposit}
+    />
   );
 }
