@@ -1,15 +1,14 @@
-'use client'
+
 import { SilentError } from '@/Errors/SilentError';
-import { throws } from 'assert';
 import { useEffect, useState } from 'react';
 
 function useSystemTheme() {
-  'use client'
   const [systemTheme, setSystemTheme] = useState<'light' | 'dark' | undefined>(() => {
     // supress server side error
     // next js doesn't seem to support react use state initializers
 
     if (typeof window === 'undefined') {
+      // see https://github.com/vercel/next.js/issues/51459
       throw new SilentError("useSystemTheme called on server side, react useState initializer not supported by next.js 'use client' directive")
     }
 
