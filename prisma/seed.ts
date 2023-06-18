@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 const prisma = new PrismaClient()
 
-type DonationInput = (Prisma.DonationCreateWithoutPayeeInput | Prisma.DonationCreateWithoutDepositInput)
+type DonationInput = (Prisma.DonationCreateWithoutDonorInput | Prisma.DonationCreateWithoutDepositInput)
 
 async function main() {
     const donations: DonationInput[] = [
@@ -12,7 +12,7 @@ async function main() {
                     name: 'Donation',
                 }
             },
-            type: {
+            transactionType: {
                 create: {
                     name: 'Cash',
                 }
@@ -21,7 +21,7 @@ async function main() {
     ]
 
 
-    const user = await prisma.payee.create({
+    const user = await prisma.donor.create({
         data: {
             name: 'John Doe',
             email: 'john.doe2@example.com',

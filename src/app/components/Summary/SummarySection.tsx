@@ -1,5 +1,5 @@
 'use client'
-import { useTheme } from "@/app/ThemeProvider"
+import { useTheme } from "@/app/context/theme/ThemeProvider"
 import Link from "next/link"
 
 interface SummaryProps {
@@ -31,8 +31,8 @@ const SummaryPage = ({ numberToDeposit, donations30Days, donations30DaysAmount }
 
         <h2 className="text-lg">Donations in the last 30 days</h2>
         <p className={`${altText} text-sm`}>Number of donations: {donations30Days}</p>
-        <p className={`${altText} text-sm`}>Total amount: {donations30DaysAmount}</p>
-        <p className={`${altText} text-sm`}>Average donation amount: {donations30DaysAmount / donations30Days}</p>
+        <p className={`${altText} text-sm`}>Total amount: ${donations30DaysAmount}</p>
+        <p className={`${altText} text-sm`}>Average donation amount: ${donations30DaysAmount / donations30Days}</p>
 
         <br></br>
       </main>

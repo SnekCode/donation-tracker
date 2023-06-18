@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "Payee" (
+CREATE TABLE "Donor" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "email" TEXT,
@@ -35,7 +35,7 @@ CREATE TABLE "Donation" (
     "depositId" TEXT,
     CONSTRAINT "Donation_typeId_fkey" FOREIGN KEY ("typeId") REFERENCES "TransactionType" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Donation_reasonId_fkey" FOREIGN KEY ("reasonId") REFERENCES "DonationReason" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Donation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Payee" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "Donation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Donor" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT "Donation_depositId_fkey" FOREIGN KEY ("depositId") REFERENCES "Deposit" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -47,4 +47,4 @@ CREATE TABLE "Deposit" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Payee_email_key" ON "Payee"("email");
+CREATE UNIQUE INDEX "Donor_name_email_key" ON "Donor"("name", "email");

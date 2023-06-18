@@ -1,6 +1,7 @@
 'use client'
-import useSystemTheme from '@/hooks/useSystemTheme';
+import useSystemTheme from '@/app/context/theme/useSystemTheme';
 import { ReactNode, createContext, useContext } from 'react';
+import { useProvider } from '../useProvider';
 
 type ThemeContextType = {
     border: string;
@@ -8,17 +9,12 @@ type ThemeContextType = {
     altText: string;
     bg: string;
     inputfieldbg: string;
+    hover: string;
   };
 
-  const ThemeContext = createContext<ThemeContextType>({
-    bg: 'bg-slate-200',
-    border: 'boarder border-slate-200',
-    text: 'text-slate-800',
-    altText: 'text-slate-200',
-    inputfieldbg: 'bg-slate-200'
-  });
+  const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-  export const useTheme = () => useContext(ThemeContext);
+  export const useTheme = () => useProvider(ThemeContext);
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
     const [systemTheme] = useSystemTheme()
@@ -27,18 +23,19 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     if (systemTheme === 'dark') {
         context.border = 'border border-slate-200';
         context.text = 'text-slate-200';
-        context.altText = 'text-slate-500';
+        context.altText = 'text-slate-400';
         context.bg = 'bg-slate-800';
         context.inputfieldbg = 'bg-slate-800';
+        context.hover = 'hover:bg-slate-600 focus-within:bg-slate-700'
     } else {
         context.border = 'border border-slate-800';
         context.text = 'text-slate-800';
-        context.altText = 'text-slate-500';
+        context.altText = 'text-slate-600';
         context.bg = 'bg-slate-200';
         context.inputfieldbg = 'bg-slate-200';
-    }
+        context.hover = 'hover:bg-slate-600 focus-within:bg-slate-700'
 
-    console.log("theme provider");
+    }
     
     return (
         <ThemeContext.Provider value={context}>

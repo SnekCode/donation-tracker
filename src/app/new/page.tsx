@@ -1,9 +1,11 @@
-import SearchBar from "@/components/SearchBar";
+import SearchBar from "@/app/components/searchbar/SearchBar";
 import prisma from "@/db";
+import DonorForm from "../components/searchbar/forms/DonorForrm";
+import TransactionTypeForm from "../components/searchbar/forms/TransactionTypeForm";
 
 
 // get payees from prisma
-const payees = await prisma.payee.findMany({
+const payees = await prisma.donor.findMany({
     select: {
         name: true,
         id: true,
@@ -11,10 +13,25 @@ const payees = await prisma.payee.findMany({
 });
 
 // create an array of donor options
-const donorOptions = payees.map((payee) => {
+const donorOptions = payees.map((donor) => {
     return {
-        value: payee.id,
-        label: payee.name,
+        value: donor.id,
+        label: donor.name,
+    };
+}
+);
+
+const transactionTypes = await prisma.transactionType.findMany({
+    select: {
+        name: true,
+        id: true,
+    },
+});
+
+const transactionTypeOptions = transactionTypes.map((transactionType) => {
+    return {
+        value: transactionType.id.toString(),
+        label: transactionType.name,
     };
 }
 );
@@ -30,18 +47,17 @@ const Page = () => {
             <div>
                 <header className="text-xl">New Donation</header>
                 <br></br>
-                <main className="flex justify-start">
-                    <form action="/api/payee" method="post" className="flex flex-col px-4 py-4 container">
+                <main className="container flex items-center justify-center">
+                    <form action="api/donation" method="post" className="w-auto flex flex-col px-4 py-4 container">
                         <input className="text-slate-800" type='number' name="amount" />
                         <label htmlFor="amount" className="pb-6">Donation Amount</label>
-                        <SearchBar donorOptions={donorOptions} />
-                        <label htmlFor="payee" className="pb-6 ">Donor Name</label>
-                        <select name="type" className="text-slate-800" defaultValue={"Check"}>
+                        <SearchBar name="donorId" options={donorOptions} label="Donor" Form={DonorForm}/>
+                        {/* <select name="type" className="text-slate-800" defaultValue={"Check"}>
                             <option>Cash</option>
                             <option>Check</option>
                             <option>Credit Card</option>
-                        </select>
-                        <label htmlFor="type" className="pb-6 ">Transaction Type</label>
+                        </select> */}
+                        <SearchBar name="transactionTypeId" options={transactionTypeOptions} label="Transaction Type" Form={TransactionTypeForm} />
                         <button>Submit</button>
                     </form>
                 </main>

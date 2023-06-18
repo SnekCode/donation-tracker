@@ -1,6 +1,6 @@
 // import prisma from db.ts
 import prisma from "../db";
-import SummaryPage from "@/components/Summary/SummaryPage";
+import SummaryPage from "@/app/components/Summary/SummarySection";
 
 export default async function Home() {
 
@@ -15,7 +15,6 @@ export default async function Home() {
         amount: true,
       },
     })
-
 
     return aggregate._sum.amount ?? 0
 }
