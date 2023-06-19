@@ -1,5 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma, { Prisma } from "@/db";
+import prisma, { Donation, Prisma } from "@/db";
+
+const createDonation = async (donation: Prisma.DonationCreateInput) => {
+    const res = await prisma.donation.create({
+    data: donation,
+    include: {
+        donor: {
+            select: {
+                name: true,
+                email: true,
+            },
+        },
+        reason: {
+            select: {
+                name: true,
+            },
+        },
+        transactionType: {
+            select: {
+                name: true,
+            },
+        },
+    }
+})
+return res
+}
+
+export type CreateDonationReturnType = Prisma.PromiseReturnType<typeof createDonation>
+
 
 export const GET = async (request: NextRequest) => {
   const transactionTypes = await prisma.donation.findMany();
@@ -57,7 +85,7 @@ export const POST = async (request: NextRequest) => {
     }
 
     donation = {
-        amount: data.amount,
+        amount: parseFloat(data.amount),
         donor: {
             connect: {
                 id: data.donorId,
@@ -65,20 +93,18 @@ export const POST = async (request: NextRequest) => {
         },
         transactionType: {
             connect: {
-                id: data.transactionTypeId,
+                id: parseInt(data.transactionTypeId),
             },
         },
         reason: {
             connect: {
-                id: data.reasonId,
+                id: parseInt(data.reasonId),
             },
         },
     };
 }
 
-    const transactionType = await prisma.donation.create({
-        data: donation
-    })
+    const newDonation = await createDonation(donation);
 
-    return NextResponse.json(transactionType);
+    return NextResponse.json(newDonation);
 };

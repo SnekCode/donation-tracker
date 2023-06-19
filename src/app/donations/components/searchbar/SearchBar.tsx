@@ -4,6 +4,7 @@ import { useProvider } from "@/app/context/useProvider";
 import { createContext, useState } from "react";
 import Select from "react-select";
 
+
 interface FormContextType {
   toggleForm: () => void;
   valueFromSearchBar: string;
@@ -75,4 +76,12 @@ const SearchBar = ({ options, name, label, Form }: SearchBarProps) => {
   );
 };
 
+
+
 export default SearchBar;
+
+// easy to use form components exported here
+import DonorForm from "./forms/DonorForrm";
+import TransactionTypeForm from "./forms/TransactionTypeForm";
+// import ReasonForm from "./forms/ReasonForm";
+export {DonorForm, TransactionTypeForm} 

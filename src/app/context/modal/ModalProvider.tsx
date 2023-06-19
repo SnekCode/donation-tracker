@@ -1,6 +1,7 @@
 "use client";
 import React, { ReactNode, createContext, useState } from "react";
 import Modal from "./Modal";
+import { ContextType } from "../ContextType";
 
 const defaultModalContent = () => <></>;
 
@@ -20,7 +21,7 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-const ModalProvider = ({ children }: { children: ReactNode }) => {
+const ModalProvider: React.FC<ContextType> = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<React.FC | ReactNode>(
     () => defaultModalContent

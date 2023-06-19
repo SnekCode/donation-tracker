@@ -1,13 +1,10 @@
-import SearchBar from "@/app/components/searchbar/SearchBar";
 import prisma, {
   Donor,
   TransactionType,
   DonationReason,
   
 } from "@/db";
-import DonorForm from "../components/searchbar/forms/DonorForrm";
-import TransactionTypeForm from "../components/searchbar/forms/TransactionTypeForm";
-import { PrismaClientOptions } from "@prisma/client/runtime";
+import DonationForm from "./components/DonationForm";
 
 interface Option {
   value: string;
@@ -42,36 +39,8 @@ const Page = () => {
     <div>
       <header className="text-xl">New Donation</header>
       <br></br>
-      <main className="container flex items-center justify-center">
-        <form
-          action="api/donation"
-          method="post"
-          className="w-auto flex flex-col px-4 py-4 container"
-        >
-          <input className="text-slate-800" type="number" name="amount" />
-          <label htmlFor="amount" className="pb-6">
-            Donation Amount
-          </label>
-          <SearchBar
-            name="donorId"
-            options={donorOptions}
-            label="Donor"
-            Form={DonorForm}
-          />
-          <SearchBar
-            name="transactionTypeId"
-            options={transactionTypeOptions}
-            label="Transaction Type"
-            Form={TransactionTypeForm}
-          />
-          <SearchBar
-            name="reasonId"
-            options={reasonOptions}
-            label="Reason"
-            Form={DonorForm}
-          />
-          <button>Submit</button>
-        </form>
+      <main className="">
+        <DonationForm donorOptions={donorOptions} reasonOptions={reasonOptions} transactionTypeOptions={transactionTypeOptions}/>
       </main>
     </div>
   );
