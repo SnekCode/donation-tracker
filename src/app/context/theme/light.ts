@@ -9,7 +9,7 @@ const lightTheme: ThemeContextType = {
     inputfieldbg: 'bg-slate-200',
     hover: 'hover:bg-slate-600 focus-within:bg-slate-400',
     linkhover: 'hover:text-blue-500',
-    activeLink: 'text-blue-400'
+    activeLink: 'text-blue-700'
 }
 
 export default lightTheme

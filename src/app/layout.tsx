@@ -3,11 +3,12 @@ import ThemeProvider from "./context/theme/ThemeProvider";
 import ModalProvider from "./context/modal/ModalProvider";
 import { ToastProvider } from "./context/toast/ToastProvider";
 import NavigationHeader, { NavigationLink } from "./components/NavigationHeader";
-import {useRouter} from 'next/router'
-import BasePageLayout from "./layout/BasePageLayout";
+import BasePageLayout from "./baselayout/BasePageLayout";
 
-export const metadata = {
-  title: "Donation Tracker",
+export async function generateMetadata() {
+  return {
+    title: "Donation Tracker",
+  };
 };
 
 export default function RootLayout({
@@ -15,7 +16,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
+    <html>
       <ThemeProvider>
         <ToastProvider>
           <ModalProvider>
@@ -31,5 +34,6 @@ export default function RootLayout({
           </ModalProvider>
         </ToastProvider>
       </ThemeProvider>
+    </html>
   );
 }

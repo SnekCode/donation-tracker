@@ -1,4 +1,4 @@
-
+'use client'
 import { SilentError } from '@/Errors/SilentError';
 import { useEffect, useState } from 'react';
 

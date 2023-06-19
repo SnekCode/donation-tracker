@@ -15,6 +15,10 @@ export const NavigationLink = ({ href = "/", children = "Home" }) => {
       className={`cursor-pointer 
   ${pathname === href ? theme.activeLink : ''} ${theme.linkhover}`}
       href={href}
+      replace={true}
+      contextMenu="false"
+      onContextMenu={(e) => e.preventDefault()}
+      prefetch={false}
     >
       {children}
     </Link>

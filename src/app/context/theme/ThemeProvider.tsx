@@ -26,6 +26,7 @@ export const ThemeProvider:React.FC<ContextType> = ({ children }) =>  {
     const [systemTheme] = useSystemTheme()
     let context: ThemeContextType = {} as ThemeContextType;
     // update context object based on system theme
+
     if (systemTheme === 'dark') {
         context = dark
     } else {
@@ -34,7 +35,7 @@ export const ThemeProvider:React.FC<ContextType> = ({ children }) =>  {
     
     return (
         <ThemeContext.Provider value={context}>
-            <html className={`${context.bg} ${context.text}`}>{children}</html>
+            <body className={`${context.bg} ${context.text}`}>{children}</body>
         </ThemeContext.Provider>
     )
 }

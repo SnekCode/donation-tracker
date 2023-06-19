@@ -5,6 +5,11 @@ import prisma, {
   
 } from "@/db";
 import DonationForm from "./components/DonationForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata  = {
+    title: "Add Donation",
+  };
 
 interface Option {
   value: string;
@@ -37,7 +42,7 @@ const Page = () => {
 
   return (
     <div>
-      <header className="text-xl">New Donation</header>
+      <h1>New Donation</h1>
       <br></br>
       <main className="">
         <DonationForm donorOptions={donorOptions} reasonOptions={reasonOptions} transactionTypeOptions={transactionTypeOptions}/>
