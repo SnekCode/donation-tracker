@@ -53,14 +53,11 @@ export default async function Home() {
 
 
   return (
-    <main className={'container m-4'}>
-
     <SummaryPage 
     donations30Days={donations30Days} 
     donations30DaysAmount={donations30DaysAmount} 
     numberToDeposit={numberToDeposit}
     notDeposited30DaysAmount={notDeposited30DaysAmount}
     />
-    </main>
   );
 }

@@ -4,6 +4,7 @@ import ModalProvider from "./context/modal/ModalProvider";
 import { ToastProvider } from "./context/toast/ToastProvider";
 import NavigationHeader, { NavigationLink } from "./components/NavigationHeader";
 import {useRouter} from 'next/router'
+import BasePageLayout from "./layout/BasePageLayout";
 
 export const metadata = {
   title: "Donation Tracker",
@@ -23,8 +24,9 @@ export default function RootLayout({
                 <NavigationLink href="/donations">Donations</NavigationLink>
                 <NavigationLink href="/deposits">Deposits</NavigationLink>
               </NavigationHeader>  
-            {children}
-            
+              <BasePageLayout>
+                {children}
+              </BasePageLayout>
           <div id="modal-root"></div>
           </ModalProvider>
         </ToastProvider>

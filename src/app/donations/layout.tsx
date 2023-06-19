@@ -1,4 +1,5 @@
 import "../globals.css";
+import BasePageLayout from "../layout/BasePageLayout";
 
 export const metadata = {
   title: "Add Donation",
@@ -9,5 +10,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="m-4">{children}</div>;
+  return <BasePageLayout>{children}</BasePageLayout>;
 }
