@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma, { Donation, Prisma } from "@/db";
-import { data } from "autoprefixer";
+import prisma, { Prisma } from "@/db";
 
 export const GET = async (request: NextRequest) => {
   const transactionTypes = await prisma.donation.findMany();
@@ -27,32 +26,27 @@ export const POST = async (request: NextRequest) => {
       });
     }
 
-    // create partial type of donation
     donation = {
-      amount: +formdata.get("amount")!,
-      donor: {
-        connect: {
-            id: formdata.get("donorId") as string,
-        }
-      },
-      transactionType:{
-        connect: {
-            id:  +formdata.get("transactionTypeId")!,
-        }
-      },
-      reason: {
-        connect: {
-            // id: +formdata.get("reasonId")!,
-            id: 1
+        amount: +formdata.get("amount")!,
+        donor: {
+            connect: {
+                id: formdata.get("donorId") as string,
+            }
+        },
+        transactionType:{
+            connect: {
+                id:  +formdata.get("transactionTypeId")!,
+            }
+        },
+        reason: {
+            connect: {
+                // id: +formdata.get("reasonId")!,
+                id: +formdata.get("reasonId")!,
+            }
         }
     }
-}
-    const transactionType = await prisma.donation.create({
-        data: donation
-    })
-    return NextResponse.json(transactionType);
+    // create partial type of donation
   } else {
-
     const data = await request.json();
 
     if (!data.amount || !data.donorId || !data.transactionTypeId) {
@@ -62,9 +56,29 @@ export const POST = async (request: NextRequest) => {
       });
     }
 
+    donation = {
+        amount: data.amount,
+        donor: {
+            connect: {
+                id: data.donorId,
+            },
+        },
+        transactionType: {
+            connect: {
+                id: data.transactionTypeId,
+            },
+        },
+        reason: {
+            connect: {
+                id: data.reasonId,
+            },
+        },
+    };
+}
+
     const transactionType = await prisma.donation.create({
-      data,
-    });
+        data: donation
+    })
+
     return NextResponse.json(transactionType);
-  }
 };
