@@ -1,13 +1,43 @@
-import { Metadata } from 'next';
+import prisma, { Prisma } from '@/db';
 import React from 'react'
+import DonationTable from './donationTable';
 
-export const metadata: Metadata  = {
-    title: "Build Deposit",
-  };
+const getDonations = async () => await prisma.donation.findMany({
+    where: {
+      depositId: null,
+    },
+    select: {
+      id: true,
+      amount: true,
+      donor: {
+        select: {
+          name: true,
+        },
+      },
+      reason: {
+        select: {
+          name: true,
+        },
+      },
+      transactionType: {
+        select: {
+          name: true,
+        },
+      }
+    }
+  })
 
-const Page = () => {
+  export type DepositTableDonations = Prisma.PromiseReturnType<typeof getDonations>
+
+  const donations = await getDonations();
+
+const Page = async () => {
+
   return (
+    <div className="container">
     <h2>Build Deposit</h2>
+    <DonationTable donations={donations} />
+    </div>
   )
 }
 
