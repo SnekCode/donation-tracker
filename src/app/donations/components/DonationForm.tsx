@@ -2,9 +2,10 @@
 import { useToast } from '@/app/context/toast/ToastProvider';
 import React from 'react'
 import SearchBar, {DonorForm, SelectOption, TransactionTypeForm} from './searchbar/SearchBar';
-import { redirect } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import { CreateDonationReturnType } from '@/app/api/donation/route';
 import { useTheme } from '@/app/context/theme/ThemeProvider';
+import { RedirectType } from 'next/dist/client/components/redirect';
 
 interface DonationFormProps {
     donorOptions: SelectOption[];
@@ -14,6 +15,8 @@ interface DonationFormProps {
 
 const DonationForm: React.FC<DonationFormProps> = ({donorOptions, transactionTypeOptions, reasonOptions}) => {
     const {showToast} = useToast();
+    const [submit, setSubmit] = React.useState(false);
+    const {refresh} = useRouter();
     const {altText, bg, border, hover,inputfieldbg,text} = useTheme()
 
 
@@ -22,16 +25,24 @@ const DonationForm: React.FC<DonationFormProps> = ({donorOptions, transactionTyp
         const res = await fetch('/api/donation', {
             method: 'POST',
             body: JSON.stringify(data),
+            next: {tags: ['donations'], revalidate: 10}
         });
         const resData: CreateDonationReturnType = await res.json();
         showToast(`$${resData.amount} ${resData.transactionType.name} ${resData.reason.name} Added`, '5s');
-        redirect('/new')
+        
+        setSubmit(true);
+    }
+
+    if(submit){
+      redirect('/donations')
     }
 
   return (
     <form
-          action={createDonation}
-          method="post"
+          onSubmit={(e) => {
+            e.preventDefault();
+            createDonation(new FormData(e.currentTarget));
+          }}
           className="w-auto flex flex-col px-4 py-4 container"
         >
           <input className="text-slate-800" type="number" name="amount" />
@@ -56,7 +67,7 @@ const DonationForm: React.FC<DonationFormProps> = ({donorOptions, transactionTyp
             label="Reason"
             Form={DonorForm}
           />
-          <button className={`${text} ${border} ${hover} mt-5 w-min px-5 py-3`}>Add</button>
+          <button type='submit' className={`${text} ${border} ${hover} mt-5 w-min px-5 py-3`}>Add</button>
         </form>
   )
 }

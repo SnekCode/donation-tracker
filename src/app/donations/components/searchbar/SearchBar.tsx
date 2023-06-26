@@ -47,7 +47,7 @@ const SearchBar = ({ options, name, label, Form }: SearchBarProps) => {
   };
 
   return (
-    <div>
+    <div onSubmit={() => setSelectedOption(null)}>
       <Select
         onInputChange={(selectedOption) =>
           setValueFromSearchBar(selectedOption)

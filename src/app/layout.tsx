@@ -5,8 +5,6 @@ import { ToastProvider } from "./context/toast/ToastProvider";
 import NavigationHeader, { NavigationLink } from "./components/NavigationHeader";
 import BasePageLayout from "./baselayout/BasePageLayout";
 
-
-
 export async function generateMetadata() {
   return {
     title: "Donation Tracker",

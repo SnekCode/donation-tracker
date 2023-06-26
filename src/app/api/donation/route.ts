@@ -58,7 +58,7 @@ export const GET = async (request: NextRequest) => {
   return NextResponse.json(donations);
 };
 
-export const POST = async (request: NextRequest) => {
+export const POST = async (request: NextRequest, response: NextResponse) => {
   // check if content type formdata
   let donation: Prisma.DonationCreateInput;
 
@@ -130,5 +130,6 @@ export const POST = async (request: NextRequest) => {
 
     const newDonation = await createDonation(donation);
 
-    return NextResponse.json(newDonation);
+    // return NextResponse.json(newDonation);
+    return NextResponse.json(newDonation, {status: 201})
 };
