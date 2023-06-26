@@ -23,7 +23,7 @@ const Modal = () => {
   if (showModal) {
     return ReactDOM.createPortal(
       <div
-        className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-opacity-75"
+        className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-opacity-75 blur-none"
         onKeyDown={(e) => {
             if (e.key === "Escape") {
                 handleModal();

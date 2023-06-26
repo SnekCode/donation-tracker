@@ -1,9 +1,11 @@
-import "./globals.css";
+import './globals.css'
 import ThemeProvider from "./context/theme/ThemeProvider";
 import ModalProvider from "./context/modal/ModalProvider";
 import { ToastProvider } from "./context/toast/ToastProvider";
 import NavigationHeader, { NavigationLink } from "./components/NavigationHeader";
 import BasePageLayout from "./baselayout/BasePageLayout";
+
+
 
 export async function generateMetadata() {
   return {
@@ -30,7 +32,7 @@ export default function RootLayout({
               <BasePageLayout>
                 {children}
               </BasePageLayout>
-          <div id="modal-root"></div>
+          <div id="modal-root"></div>          
           </ModalProvider>
         </ToastProvider>
       </ThemeProvider>

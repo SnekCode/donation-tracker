@@ -30,8 +30,32 @@ export type CreateDonationReturnType = Prisma.PromiseReturnType<typeof createDon
 
 
 export const GET = async (request: NextRequest) => {
-  const transactionTypes = await prisma.donation.findMany();
-  return NextResponse.json(transactionTypes);
+    const donations = await prisma.donation.findMany({
+        where: {
+          depositId: null,
+        },
+        select: {
+          id: true,
+          amount: true,
+          donor: {
+            select: {
+              name: true,
+            },
+          },
+          reason: {
+            select: {
+              name: true,
+            },
+          },
+          transactionType: {
+            select: {
+              name: true,
+            },
+          }
+        }
+      })
+
+  return NextResponse.json(donations);
 };
 
 export const POST = async (request: NextRequest) => {

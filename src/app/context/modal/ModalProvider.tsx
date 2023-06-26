@@ -35,7 +35,7 @@ const ModalProvider: React.FC<ContextType> = ({ children }) => {
     <ModalContext.Provider
       value={{ setModalContent, setShowModal, handleModal, showModal, modalContent }}
     >
-      <div className={showModal ? `blur` : ""}>{children}</div>
+      <div className={showModal ? `` : ""}>{children}</div>
       {showModal && (
         <Modal/>
       )}

@@ -29,7 +29,7 @@ const NavigationHeader: React.FC<ContextType> = ({ children }) => {
   const theme = useTheme();
   return (
     <div
-      className={`${theme.text} ${theme.altBg} pl-4 w-full h-10 flex items-center space-x-5`}
+      className={`${theme.text} ${theme.altBg} pl-4 w-full h-10 flex items-center space-x-5 print:hidden`}
     >
       {children}
     </div>
