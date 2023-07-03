@@ -6,7 +6,7 @@ import prisma, {
 } from "@/db";
 import DonationForm from "./components/DonationForm";
 import { Metadata } from "next";
-import FormProvider from "../context/form/FormProvider";
+import FormProvider from "../context/donation/FormProvider";
 
 export const metadata: Metadata  = {
     title: "Add Donation",
