@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
-import { FormContext } from "../SearchBar";
+import { ModalFormContext } from "../SearchBar";
 import { useProvider } from "@/app/context/useProvider";
 import { useTheme } from "@/app/context/theme/ThemeProvider";
 
@@ -10,8 +10,8 @@ interface PayeeFormState {
 }
 
 const DonorForm = () => {
-    const {valueFromSearchBar, toggleForm, setSelectedOption} = useProvider(FormContext);
-    const {altText, bg, inputfieldbg, border, hover, text} = useTheme()
+    const {valueFromSearchBar, handleModal, handleModalSubmit} = useProvider(ModalFormContext);
+    const {bg, inputfieldbg, border, hover, text} = useTheme()
 
     const [payee, setPayee] = useState<PayeeFormState>({
         name: valueFromSearchBar,
@@ -27,7 +27,6 @@ const DonorForm = () => {
     }, []);
 
     const handleSubmit = async () => {
-        console.log(payee);
         
         const res = await fetch('/api/donor', {
             method: 'POST',
@@ -38,8 +37,8 @@ const DonorForm = () => {
         });
         // if successful, close form
         const data = await res.json();
-        setSelectedOption({value: data.id, label: data.name});
-        toggleForm();
+        handleModalSubmit({value: data.id, label: data.name});
+        handleModal();
     }
 
     return (
@@ -63,7 +62,7 @@ const DonorForm = () => {
                 onChange={e => setPayee({ ...payee, email: e.currentTarget.value })}
             />
             <label htmlFor='email'>Email</label>
-            <span className={`${border} ${hover} w-min p-2 mx-auto m-2 hover:cursor-pointer`} onClick={handleSubmit} tabIndex={2}>Save</span>
+            <button className={`${border} ${hover} w-min p-2 mx-auto m-2 hover:cursor-pointer`} onClick={handleSubmit}>Save</button>
         </div>
     )
 

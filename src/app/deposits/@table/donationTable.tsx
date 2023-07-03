@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { DonationContext } from "@/app/context/donation/DonationProvider";
+import { DepositTableContext } from "@/app/context/deposit/DepositTableProvider";
 import { useProvider } from "@/app/context/useProvider";
 
 const DonationTable: React.FC = () => {
-  const donationContext = useProvider(DonationContext)
+  const donationContext = useProvider(DepositTableContext)
 
   const selectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.currentTarget.checked;
@@ -28,7 +28,7 @@ const DonationTable: React.FC = () => {
         <thead className="text-left border">
           <tr>
             <td>
-              <input onChange={selectAll} type="checkbox" />
+              <input value="checked" onChange={selectAll} type="checkbox" />
             </td>
             <th>Name</th>
             <th>Amount</th>

@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 import { useProvider } from "../useProvider";
 import { DepositTableDonations } from "@/app/deposits/layout";
 
-export interface DonationType {
+export interface DepositTableType {
     donor: {
         name: string;
     } | null;
@@ -18,27 +18,27 @@ export interface DonationType {
   selected: boolean;
 };
 
-export type DonationContextProps = {
+export type DepositTableContextProps = {
   children: React.ReactNode;
   donations: DepositTableDonations;
 };
 
-interface IByKey {
-  [key: string]: DonationType;
+interface IByKey<T> {
+  [key: string]: T;
 }
 
 export interface IDonationByKeys {
-  byId: IByKey;
+  byId: IByKey<DepositTableType>;
   selectedIds: number[];
 }
 
-export type DonationContextType = {
+export type DepositTableContextType = {
   donations: IDonationByKeys;
   toggleAll: (checked:boolean) => void;
   on: (id: number) => void;
   off: (id: number) => void;
   getCurrencyTotal: () => string;
-  getChequeDonations: () => DonationType[];
+  getChequeDonations: () => DepositTableType[];
   getChequeTotal: () => string;
   getTotal: () => string;
 };
@@ -55,17 +55,17 @@ export const convertToByKeys = (donations: DepositTableDonations) => {
         selectedIds: []
       };
     },
-    { byId: {} as IByKey, selectedIds: [] as number[] }
+    { byId: {} as IByKey<DepositTableType>, selectedIds: [] as number[] }
   );
 };
 
-export const DonationContext = createContext<DonationContextType | undefined>(
+export const DepositTableContext = createContext<DepositTableContextType | undefined>(
   undefined
 );
 
-export const useDonations = () => useProvider(DonationContext);
+export const useDonations = () => useProvider(DepositTableContext);
 
-export const DonationProvider: React.FC<DonationContextProps> = ({
+export const DepositTableProvider: React.FC<DepositTableContextProps> = ({
   children,
   donations,
 }) => {
@@ -119,7 +119,7 @@ export const DonationProvider: React.FC<DonationContextProps> = ({
                     selected: checked,
                 },
             };
-            }, {} as IByKey);
+            }, {} as IByKey<DepositTableType>);
         setDonationsToDeposit({byId: updatedByIds, selectedIds: checked ? allIds : []})
     }
 
@@ -137,18 +137,18 @@ export const DonationProvider: React.FC<DonationContextProps> = ({
         });
     }
 
-    const getChequeDonations = (): DonationType[] => {
+    const getChequeDonations = (): DepositTableType[] => {
         return donationToDeposit.selectedIds.reduce((acc, id) => {
-            if (donationToDeposit.byId[id].transactionType.name === "Cheque"){
+            if (donationToDeposit.byId[id].transactionType.name === "Check"){
                 return [...acc, donationToDeposit.byId[id]];
             }
             return acc;
-        }, [] as DonationType[]);
+        }, [] as DepositTableType[]);
     }
 
     const getChequeTotal = (): string => {
         const total = donationToDeposit.selectedIds.reduce((acc, id) => {
-            if (donationToDeposit.byId[id].transactionType.name === "Cheque"){
+            if (donationToDeposit.byId[id].transactionType.name === "Check"){
             return acc + donationToDeposit.byId[id].amount;
             }else{
                 return acc;
@@ -171,7 +171,7 @@ export const DonationProvider: React.FC<DonationContextProps> = ({
     }
 
 
-  let context: DonationContextType = {
+  let context: DepositTableContextType = {
     donations: donationToDeposit,
     on,
     off,
@@ -184,13 +184,13 @@ export const DonationProvider: React.FC<DonationContextProps> = ({
   };
 
   return (
-    <DonationContext.Provider value={context}>
+    <DepositTableContext.Provider value={context}>
       <section className={"slip flex space-x-4"}>{children}</section>
-    </DonationContext.Provider>
+    </DepositTableContext.Provider>
   );
 };
 
-export default DonationProvider;
+export default DepositTableProvider;
 
 // const [selectedDonations, setSelectedDonations] = useState([] as number[]);
 

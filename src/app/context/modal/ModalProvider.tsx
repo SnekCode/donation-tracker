@@ -28,16 +28,18 @@ const ModalProvider: React.FC<ContextType> = ({ children }) => {
   );
 
   const handleModal = () => {
-    setShowModal(!showModal);
+    console.log("handleModal", showModal);
+    
+    setShowModal(state => !state);
   };
 
   return (
     <ModalContext.Provider
-      value={{ setModalContent, setShowModal, handleModal, showModal, modalContent }}
+      value={{ setModalContent, setShowModal, handleModal, showModal, modalContent}}
     >
       <div className={showModal ? `` : ""}>{children}</div>
       {showModal && (
-        <Modal/>
+        <Modal />
       )}
     </ModalContext.Provider>
   );

@@ -10,7 +10,6 @@ const AccountInfo: React.FC<{
     <div
       className={`
       w-full
-      counter
     ${header ? "print:fixed print:top-0" : ""}
     ${footer ? "print:fixed print:bottom-0" : ""}
     `}

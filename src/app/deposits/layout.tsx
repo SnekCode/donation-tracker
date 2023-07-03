@@ -1,5 +1,5 @@
 import prisma, { Prisma } from "@/db";
-import DonationProvider from "../context/donation/DonationProvider";
+import DepositTableProvider from "../context/deposit/DepositTableProvider";
 
 export const metadata = {
   title: "Build Deposit",
@@ -47,10 +47,10 @@ export default function RootLayout({
   return (
     <>
       {children}
-        <DonationProvider donations={donations}>
+        <DepositTableProvider donations={donations}>
           {table}
           {slip}
-        </DonationProvider>
+        </DepositTableProvider>
     </>
   );
 }

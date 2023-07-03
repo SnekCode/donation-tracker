@@ -33,7 +33,7 @@ const Modal = () => {
 
       >
           <p>{modalContent}
-        <div onClick={handleModal} className={`text-center w-full ${theme.inputfieldbg} ${theme.text} ${theme.hover} ${theme.border}`}>Close</div>
+        <button onClick={handleModal} className={`text-center w-full ${theme.inputfieldbg} ${theme.text} ${theme.hover} ${theme.border}`}>Close</button>
           </p>
       </div>,
      document.querySelector("#modal-root")

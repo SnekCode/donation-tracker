@@ -4,11 +4,11 @@ import React from "react";
 import AccountInfo from "./AccountInfoLine";
 import ChequeTable from "./ChequeTable";
 import { useProvider } from "@/app/context/useProvider";
-import { DonationContext } from "@/app/context/donation/DonationProvider";
+import { DepositTableContext } from "@/app/context/deposit/DepositTableProvider";
 
 
 const Slip = () => {
-  const { donations, getChequeTotal, getCurrencyTotal, getTotal } = useProvider(DonationContext);
+  const { donations, getChequeTotal, getCurrencyTotal, getTotal } = useProvider(DepositTableContext);
   const date = new Date(Date.now()).toLocaleDateString("en-US");
   const name = "lorum ipsum";
   const accountNumber = 1234567890;
@@ -16,7 +16,7 @@ const Slip = () => {
   const breakLine = <hr className={"border-2 border-slate-800 print:block"} />;
 
   return (
-    <div className="slip flex-col container">
+    <div className="slip flex-col container print:m-0">
       <h2 className="ml-auto mr-5 mb-2 cursor-pointer rounded border p-2 w-min print:hidden">
         Print
       </h2>
@@ -26,7 +26,7 @@ const Slip = () => {
         }
       >
         <AccountInfo header account={accountNumber} routing={routingNumber} />
-        <h1 className={"uppercase mt-2 font-extrabold text-slate-800 text-center"}>
+        <h1 className={"uppercase h-12 mt-8 font-extrabold text-slate-800 text-center"}>
           Deposit
         </h1>
         <hr className={"w-full border-4 border-slate-800"} />

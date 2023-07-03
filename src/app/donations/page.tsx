@@ -6,6 +6,7 @@ import prisma, {
 } from "@/db";
 import DonationForm from "./components/DonationForm";
 import { Metadata } from "next";
+import FormProvider from "../context/form/FormProvider";
 
 export const metadata: Metadata  = {
     title: "Add Donation",
@@ -41,6 +42,7 @@ const Page = () => {
   // select the transaction type (cash, check, credit card, etc)
 
   return (
+    <FormProvider formFields={["donorId", "amount", "transactionTypeId", "reasonId"]}>
     <div>
       <h1>New Donation</h1>
       <br></br>
@@ -48,6 +50,7 @@ const Page = () => {
         <DonationForm donorOptions={donorOptions} reasonOptions={reasonOptions} transactionTypeOptions={transactionTypeOptions}/>
       </main>
     </div>
+    </FormProvider>
   );
 };
 

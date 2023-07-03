@@ -1,17 +1,17 @@
 "use client";
 import { ModalContext } from "@/app/context/modal/ModalProvider";
 import { useProvider } from "@/app/context/useProvider";
-import { createContext, useState } from "react";
+import { Dispatch, createContext, useState } from "react";
 import Select from "react-select";
 
 
-interface FormContextType {
-  toggleForm: () => void;
+interface ModalFormContextType {
+  handleModal: () => void;
   valueFromSearchBar: string;
-  setSelectedOption: (data: SelectOption) => void;
+  handleModalSubmit: (partialEvent: {label: string, value: string}) => void
 }
 
-export const FormContext = createContext<FormContextType | undefined>(
+export const ModalFormContext = createContext<ModalFormContextType | undefined>(
   undefined
 );
 
@@ -25,46 +25,55 @@ interface SearchBarProps {
   name: string;
   label: string;
   Form: React.FC;
+  isInValid?: boolean;
+  onFocus?: () => void;
 }
 
-const SearchBar = ({ options, name, label, Form }: SearchBarProps) => {
-  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
-    null
-  );
-  const { setModalContent, setShowModal } = useProvider(ModalContext);
+const SearchBar = ({ options, name, label, Form, onFocus, isInValid=false }: SearchBarProps) => {
+
+  const { setModalContent, setShowModal, handleModal } = useProvider(ModalContext);
+  const { formData, setFormData } = useProvider(FormContext);
 
   const [valueFromSearchBar, setValueFromSearchBar] = useState("");
 
+  const handleModalSubmit = (partialEvent: {label: string, value: string}) => {
+    setFormData({ name, ...partialEvent });
+  }
+
   const modalContent: React.FC = () => (
-    <FormContext.Provider value={{setSelectedOption, toggleForm, valueFromSearchBar}}>
-      <Form/>
-    </FormContext.Provider>
+    <ModalFormContext.Provider value={{ handleModalSubmit, handleModal, valueFromSearchBar }}>
+      <Form />
+    </ModalFormContext.Provider>
   );
 
   const toggleForm = () => {
     setShowModal(true);
     setModalContent(modalContent);
   };
-
+  
   return (
-    <div onSubmit={() => setSelectedOption(null)}>
+    <div>
       <Select
         onInputChange={(selectedOption) =>
           setValueFromSearchBar(selectedOption)
         }
-        onChange={(selectedOption) => setSelectedOption(selectedOption)}
-        value={selectedOption}
+        onChange={(selectedOption) => setFormData({ label: selectedOption?.label || "", value: selectedOption?.value || "", name})}
+        value={{value: formData[name].value, label: formData[name].label}}
         name={name}
-        className="text-slate-700"
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            toggleForm();
-          }
-        }}
+        className={`text-slate-700 ${isInValid && !formData[name].value ? "animate-pulse border-4 border-red-700" : ""}`}
         options={options}
         isSearchable={true}
+        onFocus={onFocus}
+        onMenuOpen={onFocus}
         noOptionsMessage={() => (
-          <button className="text-slate-700" onClick={toggleForm}>
+          <button className="text-slate-700" onClick={toggleForm}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                toggleForm();
+              }
+            }}
+
+          >
             No options found click to create new {label}
           </button>
         )}
@@ -83,5 +92,6 @@ export default SearchBar;
 // easy to use form components exported here
 import DonorForm from "./forms/DonorForrm";
 import TransactionTypeForm from "./forms/TransactionTypeForm";
+import { FormContext } from "@/app/context/form/FormProvider";
 // import ReasonForm from "./forms/ReasonForm";
-export {DonorForm, TransactionTypeForm} 
+export { DonorForm, TransactionTypeForm } 

@@ -30,8 +30,6 @@ async function main() {
             },
         }
     })
-
-    console.log(`Created user with ID: ${user.id}`)
 }
 
 main()

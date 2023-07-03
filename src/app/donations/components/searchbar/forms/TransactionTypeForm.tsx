@@ -1,16 +1,15 @@
 "use client"
-import { useContext, useEffect, useRef, useState } from "react";
-import { FormContext } from "../SearchBar";
+import { useEffect, useRef, useState } from "react";
+import { ModalFormContext } from "../SearchBar";
 import { useProvider } from "@/app/context/useProvider";
 import {useTheme} from "@/app/context/theme/ThemeProvider";
-import { ModalContext } from "@/app/context/modal/ModalProvider";
 
 interface TransactionFormState {
     name: string;
 }
 
 const TransactionTypeForm = () => {
-    const {valueFromSearchBar, toggleForm, setSelectedOption} = useProvider(FormContext);
+    const {valueFromSearchBar, handleModal, handleModalSubmit} = useProvider(ModalFormContext);
     const {altText, bg, inputfieldbg, border, hover, text} = useTheme()
 
     const [transactionType, setTransactionType] = useState<TransactionFormState>({
@@ -26,9 +25,8 @@ const TransactionTypeForm = () => {
     }, []);
 
     const handleTransActionSubmit = async () => {
-        console.log(transactionType);
         
-        const res = await fetch('/api/fuckyou', {
+        const res = await fetch('/api/transactiontype', {
             method: 'POST',
             body: JSON.stringify({
                 name: transactionType.name,
@@ -36,8 +34,8 @@ const TransactionTypeForm = () => {
         });
         // if successful, close form
         const data = await res.json();
-        setSelectedOption({value: data.id, label: data.name});
-        toggleForm();
+        handleModalSubmit({value: data.id, label: data.name});
+        handleModal();
     }
 
     return (
@@ -52,7 +50,7 @@ const TransactionTypeForm = () => {
                 ref={nameInputRef}
             />
             <label className={`${altText}`} htmlFor='name'>Name</label>
-            <span className={`${border} ${hover} w-min p-2 mx-auto m-2 hover:cursor-pointer`} onClick={handleTransActionSubmit} tabIndex={2}>Save</span>
+            <button className={`${border} ${hover} w-min p-2 mx-auto m-2 hover:cursor-pointer`} onClick={handleTransActionSubmit}>Save</button>
         </div>
     )
 }

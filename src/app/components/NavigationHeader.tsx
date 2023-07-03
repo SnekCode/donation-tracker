@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 export const NavigationLink = ({ href = "/", children = "Home" }) => {
   const theme = useTheme();
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <Link

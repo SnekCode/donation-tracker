@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@media print {
-  @page {
-    size: auto;
-    margin: 1;
-  }  
-}
-
 @layer base {
   h1 {
     @apply text-2xl;
